@@ -1,0 +1,114 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model degrees {
+  id_degree Int     @id @default(autoincrement())
+  degree    String  @db.VarChar(100)
+  users     users[]
+}
+
+model documentTypes {
+  id_document_type Int         @id @default(autoincrement())
+  document_type    String?     @db.VarChar(100)
+  documents        documents[]
+}
+
+model documents {
+  id_document      Int                        @id @default(autoincrement())
+  document_name    String?                    @db.VarChar(255)
+  path_document    String?                    @db.VarChar(255)
+  id_document_type Int?
+  document_status  documents_document_status? @default(pending)
+  documentTypes    documentTypes?             @relation(fields: [id_document_type], references: [id_document_type], onDelete: Restrict, onUpdate: Restrict, map: "documents_ibfk_1")
+  userDocuments    userDocuments[]
+
+  @@index([id_document_type], map: "id_document_type")
+}
+
+model periods {
+  id_period    Int            @id @default(autoincrement())
+  period_name  String         @db.VarChar(100)
+  registerUser registerUser[]
+}
+
+model registerTypes {
+  id_register_type Int             @id @default(autoincrement())
+  register_type    String?         @db.VarChar(100)
+  registerUser     registerUser[]
+  userDocuments    userDocuments[]
+}
+
+model registerUser {
+  id_register_user Int            @id @default(autoincrement())
+  id_register_type Int?
+  id_user          Int?
+  id_semester      Int?
+  id_period        Int?
+  date_register    DateTime?      @db.Date
+  registerTypes    registerTypes? @relation(fields: [id_register_type], references: [id_register_type], onDelete: Restrict, onUpdate: Restrict, map: "registeruser_ibfk_1")
+  semesters        semesters?     @relation(fields: [id_semester], references: [id_semester], onDelete: Restrict, onUpdate: Restrict, map: "registeruser_ibfk_2")
+  periods          periods?       @relation(fields: [id_period], references: [id_period], onDelete: Restrict, onUpdate: Restrict, map: "registeruser_ibfk_3")
+  users            users?         @relation(fields: [id_user], references: [id_user], onDelete: Restrict, onUpdate: Restrict, map: "registeruser_ibfk_4")
+
+  @@index([id_period], map: "id_period")
+  @@index([id_register_type], map: "id_register_type")
+  @@index([id_semester], map: "id_semester")
+  @@index([id_user], map: "id_user")
+}
+
+model semesters {
+  id_semester   Int            @id @default(autoincrement())
+  semester_name String         @db.VarChar(100)
+  registerUser  registerUser[]
+}
+
+model userDocuments {
+  id_user_document Int            @id @default(autoincrement())
+  id_user          Int?
+  id_document      Int?
+  id_register_type Int?
+  date_approval    DateTime?      @db.Date
+  date_register    DateTime?      @db.Date
+  users            users?         @relation(fields: [id_user], references: [id_user], onDelete: Restrict, onUpdate: Restrict, map: "userdocuments_ibfk_1")
+  registerTypes    registerTypes? @relation(fields: [id_register_type], references: [id_register_type], onDelete: Restrict, onUpdate: Restrict, map: "userdocuments_ibfk_2")
+  documents        documents?     @relation(fields: [id_document], references: [id_document], onDelete: Restrict, onUpdate: Restrict, map: "userdocuments_ibfk_3")
+
+  @@index([id_document], map: "id_document")
+  @@index([id_register_type], map: "id_register_type")
+  @@index([id_user], map: "id_user")
+}
+
+model users {
+  id_user         Int                @id @default(autoincrement())
+  name_user       String             @db.VarChar(100)
+  last_name       String             @db.VarChar(100)
+  middle_name     String             @db.VarChar(100)
+  email           String?            @unique(map: "email") @db.VarChar(100)
+  password        String             @db.VarChar(255)
+  register_number String             @unique(map: "register_number") @db.VarChar(50)
+  id_degree       Int?
+  role            String?            @default("USER_ROLE") @db.VarChar(20)
+  status_user     users_status_user? @default(active)
+  registerUser    registerUser[]
+  userDocuments   userDocuments[]
+  degrees         degrees?           @relation(fields: [id_degree], references: [id_degree], onDelete: Restrict, onUpdate: Restrict, map: "users_ibfk_1")
+
+  @@index([id_degree], map: "id_degree")
+}
+
+enum documents_document_status {
+  pending
+  approved
+  denied
+}
+
+enum users_status_user {
+  active
+  inactive
+}
