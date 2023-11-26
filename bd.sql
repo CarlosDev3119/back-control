@@ -128,72 +128,83 @@ registerType:
 
 
 -- Creación de la tabla Users
-CREATE TABLE Users (
+CREATE TABLE users (
     id_user INT AUTO_INCREMENT PRIMARY KEY,
     name_user VARCHAR(100) NOT NULL,
-    apellido_p VARCHAR(100) NOT NULL,
-    apellido_m VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    middle_name VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE,
     password VARCHAR(255) NOT NULL,
     register_number VARCHAR(50) UNIQUE NOT NULL,
     id_degree INT,
     role VARCHAR(20) DEFAULT 'USER_ROLE',
     status_user ENUM('active', 'inactive') DEFAULT 'active',
-    FOREIGN KEY (id_degree) REFERENCES Degrees(id_degree)
+    FOREIGN KEY (id_degree) REFERENCES degrees(id_degree)
 ) ENGINE=InnoDB;
 
+CREATE TABLE degrees (
+    id_degree INT AUTO_INCREMENT PRIMARY KEY,
+    degree VARCHAR(100) NOT NULL,
+)
+
 -- Creación de la tabla Documents
-CREATE TABLE Documents (
+CREATE TABLE documents (
     id_document INT AUTO_INCREMENT PRIMARY KEY,
     document_name VARCHAR(255),
+    path_document VARCHAR(255),
     id_document_type INT,
-    document_status ENUM('active', 'inactive') DEFAULT 'active',
-    FOREIGN KEY (id_document_type) REFERENCES DocumentTypes(id_document_type)
+    document_status ENUM('pending', 'approved', 'denied') DEFAULT 'active',
+    FOREIGN KEY (id_document_type) REFERENCES documentTypes(id_document_type)
 ) ENGINE=InnoDB;
 
 -- Creación de la tabla DocumentTypes
-CREATE TABLE DocumentTypes (
+CREATE TABLE documentTypes (
     id_document_type INT AUTO_INCREMENT PRIMARY KEY,
     document_type VARCHAR(100)
 ) ENGINE=InnoDB;
 
+
 -- Creación de la tabla UserDocuments
-CREATE TABLE UserDocuments (
+CREATE TABLE userDocuments (
     id_user_document INT AUTO_INCREMENT PRIMARY KEY,
     id_user INT,
     id_document INT,
+    id_register_type INT,
     date_approval DATE,
     date_register DATE,
-    PRIMARY KEY (id_user_document),
-    FOREIGN KEY (id_user) REFERENCES Users(id_user),
-    FOREIGN KEY (id_document) REFERENCES Documents(id_document)
+    FOREIGN KEY (id_user) REFERENCES users(id_user),
+    FOREIGN KEY (id_register_type) REFERENCES registerTypes(id_register_type),
+    FOREIGN KEY (id_document) REFERENCES documents(id_document)
 ) ENGINE=InnoDB;
 
 -- Creación de la tabla RegisterUser
-CREATE TABLE RegisterUser (
+CREATE TABLE registerUser (
     id_register_user INT AUTO_INCREMENT PRIMARY KEY,
     id_register_type INT,
     id_user INT,
-    date_register DATE,
-    PRIMARY KEY (id_register_user),
-    FOREIGN KEY (id_register_type) REFERENCES RegisterTypes(id_register_type),
-    FOREIGN KEY (id_user) REFERENCES Users(id_user)
+    id_semester INT,
+    id_period INT,
+    date_register DATE NULL,
+    FOREIGN KEY (id_register_type) REFERENCES registerTypes(id_register_type),
+    FOREIGN KEY (id_semester) REFERENCES semesters(id_semester),
+    FOREIGN KEY (id_period) REFERENCES periods(id_period),
+    FOREIGN KEY (id_user) REFERENCES users(id_user)
 ) ENGINE=InnoDB;
 
 -- Creación de la tabla RegisterTypes
-CREATE TABLE RegisterTypes (
+CREATE TABLE registerTypes (
     id_register_type INT AUTO_INCREMENT PRIMARY KEY,
     register_type VARCHAR(100)
 ) ENGINE=InnoDB;
 
 -- Creación de la tabla semesters
-CREATE TABLE Semesters (
+CREATE TABLE semesters (
     id_semester INT AUTO_INCREMENT PRIMARY KEY,
     semester_name VARCHAR(100) NOT NULL
 ) ENGINE=InnoDB;
 
 -- Creación de la tabla periods
-CREATE TABLE Periods (
+CREATE TABLE periods (
     id_period INT AUTO_INCREMENT PRIMARY KEY,
     period_name VARCHAR(100) NOT NULL
 ) ENGINE=InnoDB;

@@ -1,5 +1,11 @@
 import { regularExps } from "../../config/regular-exp";
 
+export enum Roles {
+    low = 'USER_ROLE',
+    high = 'ADMIN_ROLE',
+}
+
+
 export class RegisterUserDto {
 
 
@@ -8,13 +14,16 @@ export class RegisterUserDto {
         public readonly last_name: string,
         public readonly middle_name: string,
         public readonly email: string,
+        public password: string,
         public readonly register_number: string,
-        public readonly password: string
+        public readonly id_degree: number,
+        public readonly role: Roles = Roles.low,
+
     ){}
 
     static create(object: { [key: string]: any }): [string?, RegisterUserDto?] {
 
-        const { name_user, last_name, middle_name, email, register_number, password} = object;
+        const { name_user, last_name, middle_name, email, register_number, password, id_degree, role = Roles.low} = object;
 
         if(!name_user)return ['Missing name user'];
         if(!last_name)return ['Missing last name'];
@@ -28,7 +37,12 @@ export class RegisterUserDto {
         if(!password)return ['Password is not valid'];
         if( password.length < 5 )return ['Password must be at least 5 characters'];
 
-        return [undefined, new RegisterUserDto(name_user, last_name, middle_name, email, register_number, password)];
+        if(!id_degree) return ['Missing id degree'];
+        if(isNaN(id_degree)) return ['id degree must be a number'];
+        
+        if(!role) return ['Missing role'];
+
+        return [undefined, new RegisterUserDto(name_user, last_name, middle_name, email, password, register_number, +id_degree, role)];
 
     }
 
