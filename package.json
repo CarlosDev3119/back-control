@@ -7,7 +7,7 @@
     "dev": "tsnd --respawn --clear src/app.ts",
     "build": "rimraf ./dist && tsc && npm run prisma:migrate:prod",
     "start": "node dist/app.js",
-    "prisma:migrate:prod": "prisma db pull & prisma migrate deploy",
+    "prisma:migrate:prod": "npm run prisma db pull && prisma migrate deploy",
     "prisma:migrate:test": "dotenv -e .env.test -- npx prisma migrate deploy"
   },
   "keywords": [],
@@ -15,6 +15,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/node": "^20.9.0",
