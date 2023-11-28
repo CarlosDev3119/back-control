@@ -16,10 +16,15 @@ export * from './datasources/users/user.datasource';
 export * from './repositories/users/user.repository';
 
 // interfaces 
-
 export * from './interfaces/auth.interfaces';
 
 //use- cases
 export * from './use-cases/auth/register.use-case';
 export * from './use-cases/auth/login.use-case';
 export * from './use-cases/auth/renew.use-case';
+
+//user use-case
+export * from './use-cases/users/get-all.use-case';
+export * from './use-cases/users/get-user.use-case';
+export * from './use-cases/users/create-user.use-case';
+export * from './use-cases/users/update-user.use-case';

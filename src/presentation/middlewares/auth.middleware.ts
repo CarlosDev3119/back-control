@@ -1,11 +1,13 @@
 import { NextFunction, Request, Response } from "express";
 
-import { Status, UserEntity } from "../../domain";
 import { JwtAdapter } from "../../config/jwt.adapter";
 import { prisma } from "../../data/mysql/config";
 import { UserMapper } from "../../infrastructure/mappers/user.mapper";
 
-
+enum Status {
+    active= 'active',
+    inactive= 'inactive',
+}
 
 
 export class AuthMiddleware {
@@ -36,6 +38,7 @@ export class AuthMiddleware {
 
             if( !user ) return res.status(401).json({ error: 'Invalid token - user'});
             if( user.status_user !== Status.active ) return res.status(401).json({ error: 'Invalid Access - user'});
+            
             req.body.user = UserMapper.userEntityFromObject({degree: user.degrees?.degree, ...user});
 
             next();

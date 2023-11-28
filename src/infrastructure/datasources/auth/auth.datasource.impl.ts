@@ -1,7 +1,12 @@
 import { BcryptAdapter } from "../../../config/bcrypt.adapter";
 import { prisma } from "../../../data/mysql/config";
-import { AuthDatasource, CustomError, LoginUserDto, RegisterUserDto, Status, UserEntity } from "../../../domain";
+import { AuthDatasource, CustomError, LoginUserDto, RegisterUserDto, UserEntity } from "../../../domain";
 import { UserMapper } from "../../mappers/user.mapper";
+
+enum Status {
+    active = "active",
+    inactive = "inactive"
+}
 
 type User = ({
     degrees: {
