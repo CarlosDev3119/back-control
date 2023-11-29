@@ -1,8 +1,8 @@
 import { CustomError } from "../errors/custom.errors";
 
-export enum Status {
-    active = 'active',
-    inactive = 'inactive'
+export enum StatusRole {
+    admin = 'ADMIN_ROLE',
+    user = 'USER_ROLE'
 }
 
 
@@ -17,7 +17,7 @@ export class UserEntity {
         public readonly email: string,
         public readonly register_number: string,
         public readonly degree: string,
-        public readonly role: Status,
+        public readonly role: StatusRole,
     
     ){}
 
@@ -31,7 +31,7 @@ export class UserEntity {
         if(!middle_name) throw CustomError.badRequest('Missing middle_name');
         if(!email) throw CustomError.badRequest('Missing email');
         if(!register_number) throw CustomError.badRequest('Missing register_number');
-        if(!degree) throw CustomError.badRequest('Missing id_degree');
+        if(!degree) throw CustomError.badRequest('Missing degree');
         if(!role) throw CustomError.badRequest('Missing role');     
 
         return new UserEntity(id_user, name_user, last_name, middle_name, email, register_number, degree, role);

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { prisma } from "../../data/mysql/config";
-import { ResponseErrors, Status } from "../../domain";
+import { ResponseErrors } from "../../domain";
 
 
 export class ValidateUserMiddleware {

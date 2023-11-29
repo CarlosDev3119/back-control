@@ -1,6 +1,22 @@
 import { CustomError, UserEntity } from "../../domain";
 
-
+interface User {
+  id_user: number;
+  name_user: string;
+  last_name: string;
+  middle_name: string;
+  email: string;
+  password: string;
+  register_number: string;
+  id_degree: number;
+  role: string;
+  status_user: string;
+  degrees: {
+      id_degree: number;
+      degree: string;
+  };
+  [key: string]:any;
+}
 
 
 export class UserMapper {
@@ -29,7 +45,7 @@ export class UserMapper {
     if(!middle_name) throw CustomError.badRequest('Missing middle_name');
     if(!email) throw CustomError.badRequest('Missing email');
     if(!register_number) throw CustomError.badRequest('Missing register_number');
-    if(!degree) throw CustomError.badRequest('Missing id_degree');
+    if(!degree) throw CustomError.badRequest('Missing degree');
     if(!role) throw CustomError.badRequest('Missing role');  
 
 
