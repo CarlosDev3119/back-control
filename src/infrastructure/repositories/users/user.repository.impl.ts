@@ -20,7 +20,7 @@ export class UserRepositoryImpl implements UserRepository{
     }
 
     deleteById(id_user: number): Promise<UserEntity> {
-        throw new Error("Method not implemented.");
+        return this.userDataSource.deleteById(id_user);
     }
     
     updated(updatedUserDto: UpdatedUserDto): Promise<UserEntity> {

@@ -22,11 +22,14 @@ export class UserRoutes {
 
 
         router.get('/',[AuthMiddleware.validateJWT], userController.getAllUsers);
+        
         router.get('/:id',[AuthMiddleware.validateJWT], userController.getUserById);
 
         router.post('/', [AuthMiddleware.validateJWT, ValidateAdminRoleMiddleware.validateAdminRole], userController.createUser);
 
         router.put('/:id',[AuthMiddleware.validateJWT], userController.updatedUser);
+
+        router.delete('/:id',[AuthMiddleware.validateJWT,  ValidateAdminRoleMiddleware.validateAdminRole], userController.deteleUser)
 
 
         return router;

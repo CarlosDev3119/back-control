@@ -14,7 +14,8 @@ export class UpdatedUserDto {
         public readonly last_name?: string,
         public readonly middle_name?: string,
         public readonly email?: string,
-        public readonly password?: string
+        public readonly password?: string,
+        public readonly status_user?: string
     ){}
 
     get values(){
@@ -25,18 +26,19 @@ export class UpdatedUserDto {
         if( this.middle_name ) returnObj.middle_name = this.middle_name;
         if( this.email ) returnObj.email = this.email;
         if( this.password ) returnObj.password = this.password;
+        if( this.status_user ) returnObj.status_user = this.status_user;
 
         return returnObj;
     }
 
     static create(object: { [key: string]: any }): [string?, UpdatedUserDto?] {
 
-        const { name_user, last_name, middle_name, email, password, id_user} = object;
+        const { name_user, last_name, middle_name, email, password, id_user, status_user} = object;
         
         if(!id_user || isNaN(id_user)) return ['id user must be a number'];
 
 
-        return [undefined, new UpdatedUserDto( id_user, name_user, last_name, middle_name, email, password )];
+        return [undefined, new UpdatedUserDto( id_user, name_user, last_name, middle_name, email, password, status_user )];
 
     }
 
