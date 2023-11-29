@@ -72,6 +72,9 @@ export class UserDatasourceImpl implements UserDatasource {
         try{
             
             const users = await prisma.users.findMany({ 
+                where:{
+                    status_user: 'active'
+                },
                 include: {
                     degrees: true,
                 },
@@ -111,8 +114,33 @@ export class UserDatasourceImpl implements UserDatasource {
         }
     }
 
-    deleteById(id_user: number): Promise<UserEntity> {
-        throw new Error("Method not implemented.");
+    async deleteById(id_user: number): Promise<UserEntity> {
+
+        try{
+
+            const user = await prisma.users.findFirst({where: {id_user: id_user, status_user: 'active'}});
+            if(!user)throw CustomError.badRequest('User Not exist');
+
+            const userDeleted = await prisma.users.update({
+                where: {id_user},
+                data: {status_user: 'inactive'},
+                include: {
+                    degrees: true,
+                }
+            });
+
+            console.log(userDeleted);
+
+            return UserMapper.userEntityFromObject(userDeleted);
+
+        }catch(error){
+
+            if( error instanceof CustomError ) {
+                throw error;
+            }
+            throw CustomError.internalServer();
+        }
+        
     }
     
     async updated(userUpdatedDto: UpdatedUserDto): Promise<UserEntity> {

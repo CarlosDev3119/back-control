@@ -51,6 +51,8 @@ export class AuthDatasourceImpl implements AuthDatasource {
                     degrees: true,
                 },
             } );
+
+            if(existUser?.status_user === Status.inactive) throw CustomError.badRequest('User not active');
      
             if ( !existUser ) throw CustomError.badRequest('User does not exists - email');
       

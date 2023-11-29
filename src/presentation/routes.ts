@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { AuthRoutes } from './auth/routes';
 import { UserRoutes } from './users/routes';
+import { DegreeRoutes } from './degrees/routes';
 
 export class AppRoutes {
 
@@ -10,6 +11,7 @@ export class AppRoutes {
 
         router.use('/api/v1/control/auth', AuthRoutes.routes );
         router.use('/api/v1/control/users', UserRoutes.routes );
+        router.use('/api/v1/control/degrees', DegreeRoutes.routes );
 
         return router
     }

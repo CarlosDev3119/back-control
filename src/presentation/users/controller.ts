@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CreateUser, CustomError, GetUser, GetUsers, RegisterUserDto, UpdateUser, UserRepository } from "../../domain";
+import { CreateUser, CustomError, DeleteUser, GetUser, GetUsers, RegisterUserDto, UpdateUser, UserRepository } from "../../domain";
 import { UpdatedUserDto } from "../../domain/dtos/users/updated-user.dto";
 
 
@@ -65,6 +65,18 @@ export class UserController {
             
     }
 
+
+
+    deteleUser = (req: Request, res: Response) => {
+        const id = Number(req.params.id);
+        if(isNaN(id)) return res.status(404).json({error: 'Invalid Id'});
+
+        new DeleteUser( this.userRepository )
+            .execute( id )
+            .then( data => res.json(data))
+            .catch( error => this.handleError(error, res));
+
+    }
 
 
 }
