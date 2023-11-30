@@ -10,6 +10,8 @@ export class ValidateUserMiddleware {
 
         const registerNumber = req.body.register_number;
 
+        if(!registerNumber) return ResponseErrors.badRequest('Register Number is required', res);
+
         const user = await prisma.users.findFirst({
             where: { register_number: registerNumber}
         });
