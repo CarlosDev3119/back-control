@@ -128,24 +128,24 @@ registerType:
 
 
 -- Creación de la tabla Users
-CREATE TABLE users (
-    id_user INT AUTO_INCREMENT PRIMARY KEY,
-    name_user VARCHAR(100) NOT NULL,
-    last_name VARCHAR(100) NOT NULL,
-    middle_name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    register_number VARCHAR(50) UNIQUE NOT NULL,
-    id_degree INT,
-    role VARCHAR(20) DEFAULT 'USER_ROLE',
-    status_user ENUM('active', 'inactive') DEFAULT 'active',
-    FOREIGN KEY (id_degree) REFERENCES degrees(id_degree)
-) ENGINE=InnoDB;
+-- CREATE TABLE users (
+--     id_user INT AUTO_INCREMENT PRIMARY KEY,
+--     name_user VARCHAR(100) NOT NULL,
+--     last_name VARCHAR(100) NOT NULL,
+--     middle_name VARCHAR(100) NOT NULL,
+--     email VARCHAR(100) UNIQUE,
+--     password VARCHAR(255) NOT NULL,
+--     register_number VARCHAR(50) UNIQUE NOT NULL,
+--     id_degree INT,
+--     role VARCHAR(20) DEFAULT 'USER_ROLE',
+--     status_user ENUM('active', 'inactive') DEFAULT 'active',
+--     FOREIGN KEY (id_degree) REFERENCES degrees(id_degree)
+-- ) ENGINE=InnoDB;
 
-CREATE TABLE degrees (
-    id_degree INT AUTO_INCREMENT PRIMARY KEY,
-    degree VARCHAR(100) NOT NULL,
-)
+-- CREATE TABLE degrees (
+--     id_degree INT AUTO_INCREMENT PRIMARY KEY,
+--     degree VARCHAR(100) NOT NULL,
+-- )
 
 -- Creación de la tabla Documents
 CREATE TABLE documents (
@@ -153,7 +153,7 @@ CREATE TABLE documents (
     document_name VARCHAR(255),
     path_document VARCHAR(255),
     id_document_type INT,
-    document_status ENUM('pending', 'approved', 'denied') DEFAULT 'active',
+    document_status ENUM('pending', 'approved', 'denied') DEFAULT 'pending',
     FOREIGN KEY (id_document_type) REFERENCES documentTypes(id_document_type)
 ) ENGINE=InnoDB;
 
@@ -170,8 +170,8 @@ CREATE TABLE userDocuments (
     id_user INT,
     id_document INT,
     id_register_type INT,
-    date_approval DATE,
-    date_register DATE,
+    date_approval DATE NULL,
+    date_register DATE ,
     FOREIGN KEY (id_user) REFERENCES users(id_user),
     FOREIGN KEY (id_register_type) REFERENCES registerTypes(id_register_type),
     FOREIGN KEY (id_document) REFERENCES documents(id_document)
