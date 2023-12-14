@@ -147,29 +147,27 @@ registerType:
 --     degree VARCHAR(100) NOT NULL,
 -- )
 
--- Creación de la tabla Documents
-CREATE TABLE documents (
-    id_document INT AUTO_INCREMENT PRIMARY KEY,
-    document_name VARCHAR(255),
-    path_document VARCHAR(255),
-    id_document_type INT,
-    document_status ENUM('pending', 'approved', 'denied') DEFAULT 'pending',
-    FOREIGN KEY (id_document_type) REFERENCES documentTypes(id_document_type)
-) ENGINE=InnoDB;
-
--- Creación de la tabla DocumentTypes
+Creación de la tabla DocumentTypes
 CREATE TABLE documentTypes (
     id_document_type INT AUTO_INCREMENT PRIMARY KEY,
     document_type VARCHAR(100)
 ) ENGINE=InnoDB;
 
+-- Creación de la tabla Documents
+CREATE TABLE documents (
+    id_document INT AUTO_INCREMENT PRIMARY KEY,
+    path_document VARCHAR(255),  -- 202011399/asds-1233-asdas-2131
+    id_document_type INT,
+    document_status ENUM('pending', 'approved', 'denied') DEFAULT 'pending',
+    FOREIGN KEY (id_document_type) REFERENCES documentTypes(id_document_type)
+) ENGINE=InnoDB;
 
 -- Creación de la tabla UserDocuments
 CREATE TABLE userDocuments (
     id_user_document INT AUTO_INCREMENT PRIMARY KEY,
     id_user INT,
     id_document INT,
-    id_register_type INT,
+    id_register_type INT, 
     date_approval DATE NULL,
     date_register DATE ,
     FOREIGN KEY (id_user) REFERENCES users(id_user),

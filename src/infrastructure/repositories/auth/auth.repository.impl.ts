@@ -1,6 +1,5 @@
 import { AuthDatasource, AuthRepository, LoginUserDto, RegisterUserDto, UserEntity } from "../../../domain";
 
-
 export class AuthRepositoryImpl implements AuthRepository {
 
     constructor(

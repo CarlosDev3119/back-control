@@ -25,18 +25,18 @@ export class Server {
 
     async start(){
 
-        // middlewares 
+        this.app.use( express.json() );
+
         this.app.use( cors() );
 
-        this.app.use( express.json() );
         this.app.use( express.urlencoded({ extended: true }));
-
-        this.app.use( express.static( this.publicPath));
-
+        
+        this.app.use( express.static( this.publicPath ) );
+        
         this.app.use(fileUpload({
             limits: { fileSize: 50 * 1024 * 1024 },
         }));
-
+        
         this.app.use( this.routes );
 
         this.app.listen( this.port, () => {
