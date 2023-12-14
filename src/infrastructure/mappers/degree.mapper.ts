@@ -1,9 +1,5 @@
 import { CustomError, DegreeEntity, UserEntity } from "../../domain";
 
-interface Degree {
-  id_degree: number;
-  degree: string;
-}
 
 export class UserMapper {
 
